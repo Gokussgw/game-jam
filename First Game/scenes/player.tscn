@@ -202,7 +202,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bvcm0"]
-radius = 5.0
+radius = 17.0
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 5
@@ -212,14 +212,15 @@ up_direction = Vector2(0, 1)
 script = ExtResource("1_ofpvf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -12)
+position = Vector2(-1.5, -9.25)
+scale = Vector2(3.53125, 2.98438)
 sprite_frames = SubResource("SpriteFrames_81gkq")
 animation = &"Death"
 autoplay = "idle"
 frame_progress = 0.27325
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -5)
+position = Vector2(-1, 5)
 shape = SubResource("CircleShape2D_bvcm0")
 
 [node name="Timer" type="Timer" parent="."]
