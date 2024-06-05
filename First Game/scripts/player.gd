@@ -4,8 +4,8 @@ class_name Player
 
 const SPEED = 160.0
 const JUMP_VELOCITY = -300.0
-const MAX_JUMP_VELOCITY = -450.0  # Maximum jump velocity for longer hold
-const MAX_JUMP_HOLD_TIME = 0.3  # Maximum time to hold jump button to reach max jump height
+const MAX_JUMP_VELOCITY = -650.0  # Maximum jump velocity for longer hold
+const MAX_JUMP_HOLD_TIME = 0.5  # Maximum time to hold jump button to reach max jump height
 const FRICTION = 4000.0  # Friction constant to slow down the player on the ground
 const BOUNCE_DAMPENING = 0.8  # Factor to reduce the bounce effect
 
