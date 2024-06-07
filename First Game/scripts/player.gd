@@ -77,5 +77,5 @@ func hide_jump_aim():
 	jump_aim_indicator.visible = false
 
 
-func _on_area_2d_body_entered(body):
-	muisc.play()
+
+
