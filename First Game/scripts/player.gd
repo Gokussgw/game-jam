@@ -53,6 +53,7 @@ func handle_input(delta: float):
 				jump.play()  # Play jump sound when jump force is applied
 			is_jumping = false
 			can_move = true
+			jump.play()
 			hide_jump_aim()
 
 func apply_custom_gravity(delta: float):
@@ -76,6 +77,5 @@ func hide_jump_aim():
 	jump_aim_indicator.visible = false
 
 
-
 func _on_area_2d_body_entered(body):
-	music.play()
+	muisc.play()
