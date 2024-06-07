@@ -1,79 +1,72 @@
 extends CharacterBody2D
 
-# Exported variables to adjust jump parameters
-@export var max_hold_time: float = 1.0  # Maximum time the jump button can be held
-@export var min_jump_force: float = 200.0  # Minimum jump force
-@export var max_jump_force: float = 800.0  # Maximum jump force
-@export var custom_gravity: float = 1200.0  # Custom gravity value for manual application
-@export var speed: float = 400.0  # Horizontal movement speed
-@onready var audio_stream_player_2d = $Area2D/CollisionShape2D/AudioStreamPlayer2D
+# Exported variables for physics parameters
+@export var max_hold_time: float = 1.0
+@export var min_jump_force: float = 200.0
+@export var max_jump_force: float = 800.0
+@export var custom_gravity: float = 1200.0
+@export var speed: float = 400.0
+@export var bounce_factor: float = 1.0  # Factor determining how bouncy the collisions are
 
 var jump_timer: float = 0.0
 var is_jumping: bool = false
-var can_move: bool = true  # Control movement when not aiming a jump
-var jump_direction: Vector2 = Vector2.UP  # Initial direction to jump in
+var can_move: bool = true
+var jump_direction: Vector2 = Vector2.UP
 
-# Onready variable to access the Line2D node for jump aiming
 @onready var jump_aim_indicator = $JumpAimIndicator as Line2D
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	hide_jump_aim()  # Ensure the jump aim indicator is not visible at start
+	hide_jump_aim()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
+func _physics_process(delta: float):
 	handle_input(delta)
 	apply_custom_gravity(delta)
 	if can_move:
 		move_and_slide()
+	handle_collisions()
 
-# Handle input for movement and jumping
 func handle_input(delta: float):
 	var horizontal_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 
 	if is_on_floor():
 		if can_move:
-			velocity.x = horizontal_input * speed  # Set horizontal velocity based on input
+			velocity.x = horizontal_input * speed
 
 		if Input.is_action_pressed("jump"):
 			if not is_jumping:
 				jump_timer = 0.0
 				is_jumping = true
-				can_move = false  # Disable movement while aiming
+				can_move = false
 			jump_timer = min(jump_timer + delta, max_hold_time)
-			
-			# Calculate the jump direction within the specified angle range
-			var angle = clamp(horizontal_input, -0.5, 0.5) * 40.0  # Clamp input to get angles between -30 to 30 degrees
+			var angle = clamp(horizontal_input, -0.5, 0.5) * 50.0
 			jump_direction = Vector2(sin(deg_to_rad(angle)), -cos(deg_to_rad(angle))).normalized()
-			
-			show_jump_aim(jump_direction)  # Show aiming indicator based on current direction
-			update_jump_aim(jump_direction, jump_timer)  # Update indicator based on hold time
+			show_jump_aim(jump_direction)
+			update_jump_aim(jump_direction, jump_timer)
 
 		if Input.is_action_just_released("jump"):
 			if is_jumping:
 				var jump_force = min_jump_force + (max_jump_force - min_jump_force) * (jump_timer / max_hold_time)
-				jump_force = min(jump_force, max_jump_force)
-				velocity = jump_direction * jump_force  # Apply force in the aimed direction
+				velocity = jump_direction * min(jump_force, max_jump_force)
 			is_jumping = false
-			can_move = true  # Enable movement after jump
+			can_move = true
 			hide_jump_aim()
 
-# Manually apply gravity to the player
 func apply_custom_gravity(delta: float):
 	if not is_on_floor():
-		velocity.y += custom_gravity * delta  # Apply custom gravity if not on ground
+		velocity.y += custom_gravity * delta
 
-# Show and update jump aiming indicator
+func handle_collisions():
+	for i in range(get_slide_collision_count()):
+		var collision = get_slide_collision(i)
+		var normal = collision.get_normal()
+		# Reflect the velocity off the normal with the bounce factor applied
+		velocity = velocity.bounce(normal) * bounce_factor
+
 func show_jump_aim(direction: Vector2):
 	jump_aim_indicator.visible = true
 
 func update_jump_aim(direction: Vector2, timer: float):
-	jump_aim_indicator.points = [Vector2.ZERO, direction * (50 + timer * 150)]  # Increase the indicator length with timer
+	jump_aim_indicator.points = [Vector2.ZERO, direction * (50 + timer * 150)]
 
 func hide_jump_aim():
 	jump_aim_indicator.visible = false
-
-
-
-func _on_area_2d_body_entered(body):
-	audio_stream_player_2d.play()
