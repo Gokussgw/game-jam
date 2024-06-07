@@ -2,15 +2,16 @@ extends CharacterBody2D
 
 # Exported variables to adjust jump parameters
 @export var max_hold_time: float = 1.0  # Maximum time the jump button can be held
-@export var min_jump_force: float = 100.0  # Minimum jump force
-@export var max_jump_force: float = 600.0  # Maximum jump force
+@export var min_jump_force: float = 200.0  # Minimum jump force
+@export var max_jump_force: float = 800.0  # Maximum jump force
 @export var custom_gravity: float = 1200.0  # Custom gravity value for manual application
 @export var speed: float = 400.0  # Horizontal movement speed
+@onready var audio_stream_player_2d = $Area2D/CollisionShape2D/AudioStreamPlayer2D
 
 var jump_timer: float = 0.0
 var is_jumping: bool = false
 var can_move: bool = true  # Control movement when not aiming a jump
-var jump_direction: Vector2 = Vector2.ZERO  # Direction to jump in, initially zero
+var jump_direction: Vector2 = Vector2.UP  # Initial direction to jump in
 
 # Onready variable to access the Line2D node for jump aiming
 @onready var jump_aim_indicator = $JumpAimIndicator as Line2D
@@ -28,11 +29,9 @@ func _physics_process(delta: float) -> void:
 
 # Handle input for movement and jumping
 func handle_input(delta: float):
-	var horizontal_input = 0.0  # Direction of horizontal movement
+	var horizontal_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 
 	if is_on_floor():
-		horizontal_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-		
 		if can_move:
 			velocity.x = horizontal_input * speed  # Set horizontal velocity based on input
 
@@ -41,15 +40,19 @@ func handle_input(delta: float):
 				jump_timer = 0.0
 				is_jumping = true
 				can_move = false  # Disable movement while aiming
-			jump_timer += delta
-			# Update jump direction every frame while the jump button is pressed
-			jump_direction = Vector2(horizontal_input, -1).normalized()
+			jump_timer = min(jump_timer + delta, max_hold_time)
+			
+			# Calculate the jump direction within the specified angle range
+			var angle = clamp(horizontal_input, -0.5, 0.5) * 40.0  # Clamp input to get angles between -30 to 30 degrees
+			jump_direction = Vector2(sin(deg_to_rad(angle)), -cos(deg_to_rad(angle))).normalized()
+			
 			show_jump_aim(jump_direction)  # Show aiming indicator based on current direction
 			update_jump_aim(jump_direction, jump_timer)  # Update indicator based on hold time
 
 		if Input.is_action_just_released("jump"):
 			if is_jumping:
 				var jump_force = min_jump_force + (max_jump_force - min_jump_force) * (jump_timer / max_hold_time)
+				jump_force = min(jump_force, max_jump_force)
 				velocity = jump_direction * jump_force  # Apply force in the aimed direction
 			is_jumping = false
 			can_move = true  # Enable movement after jump
@@ -69,3 +72,8 @@ func update_jump_aim(direction: Vector2, timer: float):
 
 func hide_jump_aim():
 	jump_aim_indicator.visible = false
+
+
+
+func _on_area_2d_body_entered(body):
+	audio_stream_player_2d.play()
