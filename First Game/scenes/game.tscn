@@ -11921,7 +11921,6 @@ texture_region_size = Vector2i(32, 32)
 12:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_l8fy2"]
-load_path = "res://.godot/imported/plx-1.png-0f1d336b6a649ce6d343e73c3ded6e83.ctex"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rkdjm"]
 texture = SubResource("CompressedTexture2D_l8fy2")
@@ -12144,7 +12143,6 @@ texture_region_size = Vector2i(32, 37)
 11:5/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hrqxw"]
-load_path = "res://.godot/imported/plx-2.png-8970daedec9c950cbb6e9189a646aa1e.ctex"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mmald"]
 texture = SubResource("CompressedTexture2D_hrqxw")
@@ -12367,7 +12365,6 @@ texture_region_size = Vector2i(32, 32)
 11:5/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_i7kkc"]
-load_path = "res://.godot/imported/plx-3.png-3d8db50633ef038f38e4399fea2ea8fd.ctex"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pjm5d"]
 texture = SubResource("CompressedTexture2D_i7kkc")
@@ -12578,7 +12575,6 @@ texture_region_size = Vector2i(32, 32)
 11:5/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hxd21"]
-load_path = "res://.godot/imported/plx-4.png-5e0259e1ef3aac4ee34f12e9136daeed.ctex"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hh86j"]
 texture = SubResource("CompressedTexture2D_hxd21")
@@ -12780,7 +12776,6 @@ texture_region_size = Vector2i(32, 32)
 11:5/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_o2jll"]
-load_path = "res://.godot/imported/plx-5.png-8e1fc8a1e996b48a8b9089625effb7ed.ctex"
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v38s4"]
 texture = SubResource("CompressedTexture2D_o2jll")

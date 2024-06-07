@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://fom81yuv6pu6"]
+[gd_scene load_steps=4 format=3 uid="uid://grng8c8lyos"]
 
 [ext_resource type="Script" path="res://scenes/Menu.gd" id="1_6q6ov"]
 [ext_resource type="Texture2D" uid="uid://cqowv4tqts5d" path="res://assets/music/Pixel Art Illustration Wallpaper Desktop.svg" id="2_lcfav"]
