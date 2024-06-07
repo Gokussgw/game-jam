@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://grng8c8lyos"]
+[gd_scene load_steps=4 format=3 uid="uid://fom81yuv6pu6"]
 
 [ext_resource type="Script" path="res://scenes/Menu.gd" id="1_6q6ov"]
 [ext_resource type="Texture2D" uid="uid://cqowv4tqts5d" path="res://assets/music/Pixel Art Illustration Wallpaper Desktop.svg" id="2_lcfav"]
@@ -42,6 +42,11 @@ theme_override_font_sizes/font_size = 200
 
 [node name="Play" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_constants/outline_size = 0
+theme_override_constants/h_separation = 0
+theme_override_constants/icon_max_width = 0
 theme_override_fonts/font = ExtResource("3_urq8i")
 theme_override_font_sizes/font_size = 40
 text = "Play"
@@ -49,17 +54,19 @@ icon_alignment = 1
 
 [node name="Options" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("3_urq8i")
 theme_override_font_sizes/font_size = 40
 text = "Options"
 
 [node name="Quit" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
 theme_override_fonts/font = ExtResource("3_urq8i")
 theme_override_font_sizes/font_size = 40
 text = "Quit"
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
