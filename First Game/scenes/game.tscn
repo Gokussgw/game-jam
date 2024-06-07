@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://cuv4vme4rwno0"]
+[gd_scene load_steps=46 format=3 uid="uid://cuv4vme4rwno0"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_l4ihi"]
 [ext_resource type="PackedScene" uid="uid://dqnaqj8yb6hwd" path="res://scenes/player.tscn" id="1_rbmkf"]
@@ -20,7 +20,6 @@
 [ext_resource type="Script" path="res://scenes/Camera2D.gd" id="13_ebuv6"]
 [ext_resource type="PackedScene" uid="uid://c877sgvn1x62h" path="res://scenes/room_detector.tscn" id="14_6sqc6"]
 [ext_resource type="PackedScene" uid="uid://dx3mkq5ifde64" path="res://scenes/pause_menu.tscn" id="14_7glij"]
-[ext_resource type="PackedScene" uid="uid://blmhd0iffb0kp" path="res://scenes/room_detector.tscn" id="14_6sqc6"]
 [ext_resource type="Texture2D" uid="uid://d2lytbao7o41f" path="res://assets/PixelFantasy_Caves_1.0/background2.png" id="14_ikseb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_shx2t"]
@@ -24442,6 +24441,7 @@ rightdownMargin = Vector2(1, 1)
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Pause Menu" parent="CanvasLayer" instance=ExtResource("14_7glij")]
+
 [node name="RoomDetector3" parent="." instance=ExtResource("14_6sqc6")]
 position = Vector2(-499.2, -1561.6)
 ROOMPOSITION = Vector2(-16.1, -49.3)
