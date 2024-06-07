@@ -1,123 +1,71 @@
 extends CharacterBody2D
 
-class_name PlayerCharacter  # Renamed from Player to PlayerCharacter
+# Exported variables to adjust jump parameters
+@export var max_hold_time: float = 1.0  # Maximum time the jump button can be held
+@export var min_jump_force: float = 100.0  # Minimum jump force
+@export var max_jump_force: float = 600.0  # Maximum jump force
+@export var custom_gravity: float = 1200.0  # Custom gravity value for manual application
+@export var speed: float = 400.0  # Horizontal movement speed
 
-const SPEED = 160.0
-const JUMP_VELOCITY = -300.0
-const MAX_JUMP_VELOCITY = -650.0  # Maximum jump velocity for longer hold
-const MAX_JUMP_HOLD_TIME = 0.5  # Maximum time to hold jump button to reach max jump height
-const FRICTION = 4000.0  # Friction constant to slow down the player on the ground
-const BOUNCE_DAMPENING = 0.8  # Factor to reduce the bounce effect
+var jump_timer: float = 0.0
+var is_jumping: bool = false
+var can_move: bool = true  # Control movement when not aiming a jump
+var jump_direction: Vector2 = Vector2.ZERO  # Direction to jump in, initially zero
 
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+# Onready variable to access the Line2D node for jump aiming
+@onready var jump_aim_indicator = $JumpAimIndicator as Line2D
 
-@onready var animated_sprite = $AnimatedSprite2D
-@onready var collision_shape = $CollisionShape2D
-var is_invincible = false
-var invincible_time = 2.0  # Time in seconds the player is invincible
-var lives = 2  # Player starts with 2 lives
-var state = "idle"
-var jump_hold_time = 0.0  # Time the jump button is held
-var aim_direction = Vector2.ZERO  # Aim direction for jumping
-
+# Called when the node enters the scene tree for the first time.
 func _ready():
-	add_to_group("player")
+	hide_jump_aim()  # Ensure the jump aim indicator is not visible at start
 
-func _physics_process(delta):
-	if state != "dead":
-		# Add the gravity.
-		if not is_on_floor():
-			velocity.y += gravity * delta
-		else:
-			# Reset vertical velocity when on the floor
-			velocity.y = max(0, velocity.y)
-
-			# Get the input direction: -1, 0, 1
-			var direction = Input.get_axis("move_left", "move_right")
-
-			# Set the aim direction based on player input while on the ground
-			if direction != 0:
-				aim_direction.x = direction
-				aim_direction = aim_direction.normalized()
-
-			# Apply friction to horizontal velocity when on the ground and no input is given
-			if is_on_floor() and direction == 0:
-				if velocity.x > 0:
-					velocity.x = max(velocity.x - FRICTION * delta, 0)
-				elif velocity.x < 0:
-					velocity.x = min(velocity.x + FRICTION * delta, 0)
-
-			# Flip the Sprite
-			animated_sprite.flip_h = direction < 0
-
-		# Handle jump start when button is pressed
-		if Input.is_action_just_pressed("jump") and is_on_floor():
-			jump_hold_time = 0.0  # Reset jump hold time
-
-		# Increment jump hold time while the button is held
-		if Input.is_action_pressed("jump"):
-			jump_hold_time += delta
-			jump_hold_time = min(jump_hold_time, MAX_JUMP_HOLD_TIME)  # Clamp the hold time to the maximum
-
-		# Apply jump velocity when the button is released
-		if Input.is_action_just_released("jump") and is_on_floor():
-			var jump_force = lerp(JUMP_VELOCITY, MAX_JUMP_VELOCITY, jump_hold_time / MAX_JUMP_HOLD_TIME)
-			velocity.y = jump_force
-			velocity.x = aim_direction.x * SPEED  # Apply horizontal velocity based on aim direction
-
-		# Play animations
-		if state != "dead":
-			if is_on_floor():
-				if velocity.x == 0:
-					animated_sprite.play("idle")
-				else:
-					animated_sprite.play("run")
-			else:
-				animated_sprite.play("jump")
-
-		# Flickering effect when invincible
-		if is_invincible:
-			# Make the sprite flicker by altering visibility
-			visible = !visible
-
-		# Apply movement and detect collisions
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _physics_process(delta: float) -> void:
+	handle_input(delta)
+	apply_custom_gravity(delta)
+	if can_move:
 		move_and_slide()
 
-		# Check for collisions to implement wall bouncing
-		for i in range(get_slide_collision_count()):
-			var collision = get_slide_collision(i)
-			if abs(collision.get_normal().x) > 0.9 and not is_on_floor():  # Horizontal collision detected while in air
-				velocity.x = -velocity.x * BOUNCE_DAMPENING  # Reverse and dampen horizontal velocity to bounce off the wall
-				break  # Exit the loop once a bounce is detected to avoid multiple reversals
+# Handle input for movement and jumping
+func handle_input(delta: float):
+	var horizontal_input = 0.0  # Direction of horizontal movement
 
-func get_hit():
-	if is_invincible:
-		# If hit while invincible, the player dies
-		die()
-	else:
-		# Become invincible after first hit
-		is_invincible = true
-		var timer = get_tree().create_timer(invincible_time)
-		await timer.timeout
-		end_invincibility()
+	if is_on_floor():
+		horizontal_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+		
+		if can_move:
+			velocity.x = horizontal_input * speed  # Set horizontal velocity based on input
 
-func end_invincibility():
-	# Reset invincibility state and make sure player is visible
-	is_invincible = false
-	visible = true
+		if Input.is_action_pressed("jump"):
+			if not is_jumping:
+				jump_timer = 0.0
+				is_jumping = true
+				can_move = false  # Disable movement while aiming
+			jump_timer += delta
+			# Update jump direction every frame while the jump button is pressed
+			jump_direction = Vector2(horizontal_input, -1).normalized()
+			show_jump_aim(jump_direction)  # Show aiming indicator based on current direction
+			update_jump_aim(jump_direction, jump_timer)  # Update indicator based on hold time
 
-func die():
-	if lives > 1:
-		lives -= 1
-		# Become invincible after losing a life
-		get_hit()
-	else:
-		# Play death animation and wait for it to finish before reloading the scene
-		state = "dead"
-		animated_sprite.play("Death")  # Make sure "Death" is the name of your death animation
-		velocity = Vector2.ZERO
-		var timer = get_tree().create_timer(2.0)
-		await timer.timeout
-		print("Reloading scene")
-		get_tree().reload_current_scene()  # Reload the current scene to restart the game
+		if Input.is_action_just_released("jump"):
+			if is_jumping:
+				var jump_force = min_jump_force + (max_jump_force - min_jump_force) * (jump_timer / max_hold_time)
+				velocity = jump_direction * jump_force  # Apply force in the aimed direction
+			is_jumping = false
+			can_move = true  # Enable movement after jump
+			hide_jump_aim()
+
+# Manually apply gravity to the player
+func apply_custom_gravity(delta: float):
+	if not is_on_floor():
+		velocity.y += custom_gravity * delta  # Apply custom gravity if not on ground
+
+# Show and update jump aiming indicator
+func show_jump_aim(direction: Vector2):
+	jump_aim_indicator.visible = true
+
+func update_jump_aim(direction: Vector2, timer: float):
+	jump_aim_indicator.points = [Vector2.ZERO, direction * (50 + timer * 150)]  # Increase the indicator length with timer
+
+func hide_jump_aim():
+	jump_aim_indicator.visible = false

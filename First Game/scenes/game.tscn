@@ -1,17 +1,18 @@
-[gd_scene load_steps=24 format=3 uid="uid://cuv4vme4rwno0"]
+[gd_scene load_steps=25 format=3 uid="uid://cuv4vme4rwno0"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_l4ihi"]
 [ext_resource type="PackedScene" uid="uid://dqnaqj8yb6hwd" path="res://scenes/player.tscn" id="1_rbmkf"]
 [ext_resource type="FontFile" uid="uid://c53kogtyjwsss" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_nlliu"]
 [ext_resource type="Texture2D" uid="uid://d0q2g65ahgok" path="res://assets/sprites/world_tileset.png" id="2_r1crl"]
-[ext_resource type="Texture2D" path="res://NicePng_sans-sprite-png_8228828.png" id="3_olcsh"]
-[ext_resource type="Texture2D" path="res://gameplay-pixel-background-free-vector.jpg" id="5_0ngye"]
+[ext_resource type="Texture2D" uid="uid://bjfbg3qxhehm2" path="res://NicePng_sans-sprite-png_8228828.png" id="3_olcsh"]
+[ext_resource type="Texture2D" uid="uid://b4sq8p7t1mns2" path="res://gameplay-pixel-background-free-vector.jpg" id="5_0ngye"]
 [ext_resource type="FontFile" uid="uid://dbjl1e6kdxpl6" path="res://assets/fonts/PixelOperator8.ttf" id="7_8cblx"]
-[ext_resource type="Texture2D" path="res://super_mario_world_background_1_by_jamesbaker12318_dadjx97-pre.jpg" id="7_iork8"]
-[ext_resource type="Texture2D" path="res://Retro.jpg" id="8_n43v3"]
-[ext_resource type="Texture2D" path="res://Image that loops as it slides horizontally across the screen to look like its scrolling infinitely.jpg" id="9_cadx0"]
-[ext_resource type="Texture2D" path="res://8iQK8xu.png" id="10_1p63l"]
-[ext_resource type="Texture2D" path="res://cloud-pixels-super-mario-enemies-fungus-hd-wallpaper-thumb.jpg" id="11_iko1q"]
+[ext_resource type="Texture2D" uid="uid://ce1odprs737fg" path="res://super_mario_world_background_1_by_jamesbaker12318_dadjx97-pre.jpg" id="7_iork8"]
+[ext_resource type="Texture2D" uid="uid://tekl6u3scs4l" path="res://Retro.jpg" id="8_n43v3"]
+[ext_resource type="Texture2D" uid="uid://n56gonrwf04p" path="res://Image that loops as it slides horizontally across the screen to look like its scrolling infinitely.jpg" id="9_cadx0"]
+[ext_resource type="Texture2D" uid="uid://s6iuleejybm7" path="res://8iQK8xu.png" id="10_1p63l"]
+[ext_resource type="Texture2D" uid="uid://vvmh5y6xrljf" path="res://cloud-pixels-super-mario-enemies-fungus-hd-wallpaper-thumb.jpg" id="11_iko1q"]
+[ext_resource type="Script" path="res://scenes/JumpAinIndicator.gd" id="12_avx5f"]
 [ext_resource type="Script" path="res://scenes/Camera2D.gd" id="13_ebuv6"]
 [ext_resource type="PackedScene" path="res://scenes/room_detector.tscn" id="14_6sqc6"]
 
@@ -18016,6 +18017,13 @@ layer_2/tile_data = PackedInt32Array(262143, 1, 0, 196608, 1, 0, 196609, 1, 0, 1
 [node name="Player" parent="." groups=["player"] instance=ExtResource("1_rbmkf")]
 position = Vector2(-425, -380)
 up_direction = Vector2(0, -1)
+
+[node name="JumpAimIndicator" type="Line2D" parent="Player"]
+z_index = 2
+width = 3.0
+default_color = Color(0.239724, 0.664919, 0.748071, 1)
+antialiased = true
+script = ExtResource("12_avx5f")
 
 [node name="Labels" type="Node" parent="."]
 
