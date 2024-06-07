@@ -7,7 +7,8 @@ extends CharacterBody2D
 @export var custom_gravity: float = 1200.0
 @export var speed: float = 400.0
 @export var bounce_factor: float = 1.0  # Factor determining how bouncy the collisions are
-
+@onready var muisc = $Area2D/CollisionShape2D/AudioStreamPlayer
+@onready var jump = $AudioStreamPlayer
 var jump_timer: float = 0.0
 var is_jumping: bool = false
 var can_move: bool = true
@@ -49,6 +50,7 @@ func handle_input(delta: float):
 				velocity = jump_direction * min(jump_force, max_jump_force)
 			is_jumping = false
 			can_move = true
+			jump.play()
 			hide_jump_aim()
 
 func apply_custom_gravity(delta: float):
@@ -70,3 +72,7 @@ func update_jump_aim(direction: Vector2, timer: float):
 
 func hide_jump_aim():
 	jump_aim_indicator.visible = false
+
+
+func _on_area_2d_body_entered(body):
+	muisc.play()
