@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dbu6bsfq330yh"
+path="res://.godot/imported/أغنية ري بون بون - سبيس تون 🎵 Rebonbon - Spacetoon.mp3-6ab76dc00fca5ff1fbdae7a4d41dfead.mp3str"
+
+[deps]
+
+source_file="res://assets/music/أغنية ري بون بون - سبيس تون 🎵 Rebonbon - Spacetoon.mp3"
+dest_files=["res://.godot/imported/أغنية ري بون بون - سبيس تون 🎵 Rebonbon - Spacetoon.mp3-6ab76dc00fca5ff1fbdae7a4d41dfead.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
