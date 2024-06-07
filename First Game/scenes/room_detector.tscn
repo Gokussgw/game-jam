@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://blmhd0iffb0kp"]
+[gd_scene load_steps=3 format=3 uid="uid://c877sgvn1x62h"]
 
 [ext_resource type="Script" path="res://scripts/RoomDetector.gd" id="1_aic7y"]
 
