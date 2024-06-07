@@ -6,10 +6,12 @@
 size = Vector2(32, 32)
 
 [node name="RoomDetector" type="Area2D" groups=["roomDetector"]]
+position = Vector2(16, 16)
 script = ExtResource("1_aic7y")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(10, 10)
+position = Vector2(-16, -16)
+scale = Vector2(1e-05, 1e-05)
 shape = SubResource("RectangleShape2D_o6qp6")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
