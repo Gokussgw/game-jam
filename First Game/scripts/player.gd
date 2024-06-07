@@ -7,8 +7,9 @@ extends CharacterBody2D
 @export var custom_gravity: float = 1200.0
 @export var speed: float = 400.0
 @export var bounce_factor: float = 1.0  # Factor determining how bouncy the collisions are
-@onready var muisc = $Area2D/CollisionShape2D/AudioStreamPlayer
+@onready var music = $Area2D/CollisionShape2D/AudioStreamPlayer
 @onready var jump = $AudioStreamPlayer
+
 var jump_timer: float = 0.0
 var is_jumping: bool = false
 var can_move: bool = true
@@ -38,6 +39,7 @@ func handle_input(delta: float):
 				jump_timer = 0.0
 				is_jumping = true
 				can_move = false
+
 			jump_timer = min(jump_timer + delta, max_hold_time)
 			var angle = clamp(horizontal_input, -0.5, 0.5) * 50.0
 			jump_direction = Vector2(sin(deg_to_rad(angle)), -cos(deg_to_rad(angle))).normalized()
@@ -48,6 +50,7 @@ func handle_input(delta: float):
 			if is_jumping:
 				var jump_force = min_jump_force + (max_jump_force - min_jump_force) * (jump_timer / max_hold_time)
 				velocity = jump_direction * min(jump_force, max_jump_force)
+				jump.play()  # Play jump sound when jump force is applied
 			is_jumping = false
 			can_move = true
 			jump.play()
@@ -74,5 +77,5 @@ func hide_jump_aim():
 	jump_aim_indicator.visible = false
 
 
-func _on_area_2d_body_entered(body):
-	muisc.play()
+
+
