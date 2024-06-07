@@ -5,17 +5,17 @@
 [ext_resource type="FontFile" uid="uid://c53kogtyjwsss" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_nlliu"]
 [ext_resource type="Texture2D" uid="uid://d0q2g65ahgok" path="res://assets/sprites/world_tileset.png" id="2_r1crl"]
 [ext_resource type="Texture2D" uid="uid://dqcd6d38vife7" path="res://assets/PixelFantasy_Caves_1.0/background1.png" id="3_ce8uk"]
-[ext_resource type="Texture2D" uid="uid://bjfbg3qxhehm2" path="res://NicePng_sans-sprite-png_8228828.png" id="3_olcsh"]
-[ext_resource type="Texture2D" uid="uid://b4sq8p7t1mns2" path="res://gameplay-pixel-background-free-vector.jpg" id="5_0ngye"]
+[ext_resource type="Texture2D" uid="uid://bjfbg3qxhehm2" path="res://assets/NicePng_sans-sprite-png_8228828.png" id="3_olcsh"]
+[ext_resource type="Texture2D" uid="uid://b4sq8p7t1mns2" path="res://assets/gameplay-pixel-background-free-vector.jpg" id="5_0ngye"]
 [ext_resource type="Texture2D" uid="uid://baje12sqwjxuk" path="res://assets/PixelFantasy_Caves_1.0/background3.png" id="5_o3ie6"]
 [ext_resource type="Texture2D" uid="uid://b4f0f7fkp7737" path="res://assets/PixelFantasy_Caves_1.0/mainlev_build.png" id="6_nlmb1"]
 [ext_resource type="FontFile" uid="uid://dbjl1e6kdxpl6" path="res://assets/fonts/PixelOperator8.ttf" id="7_8cblx"]
-[ext_resource type="Texture2D" uid="uid://ce1odprs737fg" path="res://super_mario_world_background_1_by_jamesbaker12318_dadjx97-pre.jpg" id="7_iork8"]
-[ext_resource type="Texture2D" uid="uid://brk8nn5nfmsmo" path="res://PixelMedievalChandelier_nyknck.png" id="7_qcof0"]
-[ext_resource type="Texture2D" uid="uid://tekl6u3scs4l" path="res://Retro.jpg" id="8_n43v3"]
-[ext_resource type="Texture2D" uid="uid://n56gonrwf04p" path="res://Image that loops as it slides horizontally across the screen to look like its scrolling infinitely.jpg" id="9_cadx0"]
-[ext_resource type="Texture2D" uid="uid://s6iuleejybm7" path="res://8iQK8xu.png" id="10_1p63l"]
-[ext_resource type="Texture2D" uid="uid://vvmh5y6xrljf" path="res://cloud-pixels-super-mario-enemies-fungus-hd-wallpaper-thumb.jpg" id="11_iko1q"]
+[ext_resource type="Texture2D" uid="uid://ce1odprs737fg" path="res://assets/super_mario_world_background_1_by_jamesbaker12318_dadjx97-pre.jpg" id="7_iork8"]
+[ext_resource type="Texture2D" uid="uid://brk8nn5nfmsmo" path="res://assets/PixelMedievalChandelier_nyknck.png" id="7_qcof0"]
+[ext_resource type="Texture2D" uid="uid://tekl6u3scs4l" path="res://assets/Retro.jpg" id="8_n43v3"]
+[ext_resource type="Texture2D" uid="uid://n56gonrwf04p" path="res://assets/Image that loops as it slides horizontally across the screen to look like its scrolling infinitely.jpg" id="9_cadx0"]
+[ext_resource type="Texture2D" uid="uid://s6iuleejybm7" path="res://assets/8iQK8xu.png" id="10_1p63l"]
+[ext_resource type="Texture2D" uid="uid://vvmh5y6xrljf" path="res://assets/cloud-pixels-super-mario-enemies-fungus-hd-wallpaper-thumb.jpg" id="11_iko1q"]
 [ext_resource type="Script" path="res://scenes/JumpAinIndicator.gd" id="12_avx5f"]
 [ext_resource type="Script" path="res://scenes/Camera2D.gd" id="13_ebuv6"]
 [ext_resource type="PackedScene" uid="uid://c877sgvn1x62h" path="res://scenes/room_detector.tscn" id="14_6sqc6"]
@@ -24438,13 +24438,13 @@ ROOMSIZE = Vector2(33, 18)
 leftupMargin = Vector2(1, 1)
 rightdownMargin = Vector2(1, 1)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Pause Menu" parent="CanvasLayer" instance=ExtResource("14_7glij")]
-
 [node name="RoomDetector3" parent="." instance=ExtResource("14_6sqc6")]
 position = Vector2(-499.2, -1561.6)
 ROOMPOSITION = Vector2(-16.1, -49.3)
 ROOMSIZE = Vector2(33, 16)
 leftupMargin = Vector2(1, 1)
 rightdownMargin = Vector2(1, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Pause Menu" parent="CanvasLayer" instance=ExtResource("14_7glij")]
