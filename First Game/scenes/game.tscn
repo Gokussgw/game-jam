@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://cuv4vme4rwno0"]
+[gd_scene load_steps=49 format=3 uid="uid://cuv4vme4rwno0"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_l4ihi"]
 [ext_resource type="PackedScene" uid="uid://dqnaqj8yb6hwd" path="res://scenes/player.tscn" id="1_rbmkf"]
@@ -18,9 +18,11 @@
 [ext_resource type="Texture2D" uid="uid://vvmh5y6xrljf" path="res://cloud-pixels-super-mario-enemies-fungus-hd-wallpaper-thumb.jpg" id="11_iko1q"]
 [ext_resource type="Script" path="res://scenes/JumpAinIndicator.gd" id="12_avx5f"]
 [ext_resource type="Script" path="res://scenes/Camera2D.gd" id="13_ebuv6"]
-[ext_resource type="PackedScene" uid="uid://c877sgvn1x62h" path="res://scenes/room_detector.tscn" id="14_6sqc6"]
-[ext_resource type="PackedScene" uid="uid://dx3mkq5ifde64" path="res://scenes/pause_menu.tscn" id="14_7glij"]
+[ext_resource type="PackedScene" uid="uid://blmhd0iffb0kp" path="res://scenes/room_detector.tscn" id="14_6sqc6"]
+[ext_resource type="PackedScene" path="res://scenes/pause_menu.tscn" id="14_7glij"]
 [ext_resource type="Texture2D" uid="uid://d2lytbao7o41f" path="res://assets/PixelFantasy_Caves_1.0/background2.png" id="14_ikseb"]
+[ext_resource type="AudioStream" uid="uid://dfc8x3iedjdc1" path="res://assets/music/WhatsApp Audio 2024-06-07 at 23.08.45_46839a64.mp3" id="18_1gwvf"]
+[ext_resource type="AudioStream" uid="uid://60mxe0x3hmsa" path="res://assets/music/WhatsApp Audio 2024-06-07 at 23 (mp3cut.net).mp3" id="19_ophwm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_shx2t"]
 texture = ExtResource("3_ce8uk")
@@ -24332,6 +24334,8 @@ sources/15 = SubResource("TileSetAtlasSource_hh86j")
 sources/16 = SubResource("TileSetAtlasSource_v38s4")
 sources/18 = SubResource("TileSetAtlasSource_kbwej")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_12wg7"]
+
 [node name="Game" type="Node2D"]
 
 [node name="GameManager" type="Node" parent="."]
@@ -24373,6 +24377,17 @@ width = 3.0
 default_color = Color(0.239724, 0.664919, 0.748071, 1)
 antialiased = true
 script = ExtResource("12_avx5f")
+
+[node name="Area2D" type="Area2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2D"]
+shape = SubResource("RectangleShape2D_12wg7")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Player/Area2D/CollisionShape2D"]
+stream = ExtResource("18_1gwvf")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Player"]
+stream = ExtResource("19_ophwm")
 
 [node name="Labels" type="Node" parent="."]
 
@@ -24448,3 +24463,5 @@ ROOMPOSITION = Vector2(-16.1, -49.3)
 ROOMSIZE = Vector2(33, 16)
 leftupMargin = Vector2(1, 1)
 rightdownMargin = Vector2(1, 1)
+
+[connection signal="body_entered" from="Player/Area2D" to="Player" method="_on_area_2d_body_entered"]
